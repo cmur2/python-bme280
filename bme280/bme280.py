@@ -1,57 +1,58 @@
 
-import smbus
 import time
 
-ADDR=0x76 # 7bit address of the BME280 for SDO=0, else 0x77
+import smbus # pylint: disable=import-error
 
-REGISTER_ID=0xD0
-REGISTER_RESET=0xE0
-REGISTER_CTRL_HUM=0xF2
-REGISTER_STATUS=0xF3
-REGISTER_CTRL_MEAS=0xF4
-REGISTER_CONFIG=0xF5
+ADDR = 0x76 # 7bit address of the BME280 for SDO=0, else 0x77
 
-HO_SKIPPED=0x00
-HO_1=0x01
-HO_2=0x02
-HO_4=0x03
-HO_8=0x04
-HO_16=0x05 # and all higher
+REGISTER_ID = 0xD0
+REGISTER_RESET = 0xE0
+REGISTER_CTRL_HUM = 0xF2
+REGISTER_STATUS = 0xF3
+REGISTER_CTRL_MEAS = 0xF4
+REGISTER_CONFIG = 0xF5
 
-PO_SKIPPED=0x00
-PO_1=0x01
-PO_2=0x02
-PO_4=0x03
-PO_8=0x04
-PO_16=0x05 # and all higher
+HO_SKIPPED = 0x00
+HO_1 = 0x01
+HO_2 = 0x02
+HO_4 = 0x03
+HO_8 = 0x04
+HO_16 = 0x05 # and all higher
 
-TO_SKIPPED=0x00
-TO_1=0x01
-TO_2=0x02
-TO_4=0x03
-TO_8=0x04
-TO_16=0x05 # and all higher
+PO_SKIPPED = 0x00
+PO_1 = 0x01
+PO_2 = 0x02
+PO_4 = 0x03
+PO_8 = 0x04
+PO_16 = 0x05 # and all higher
 
-MODE_SLEEP=0x00
-MODE_FORCED=0x01 # and 0x02
-MODE_NORMAL=0x03
+TO_SKIPPED = 0x00
+TO_1 = 0x01
+TO_2 = 0x02
+TO_4 = 0x03
+TO_8 = 0x04
+TO_16 = 0x05 # and all higher
 
-TSTANDBY_0_5=0x00
-TSTANDBY_62_5=0x01
-TSTANDBY_125=0x02
-TSTANDBY_250=0x03
-TSTANDBY_500=0x04
-TSTANDBY_1000=0x05
-TSTANDBY_10=0x06
-TSTANDBY_20=0x07
+MODE_SLEEP = 0x00
+MODE_FORCED = 0x01 # and 0x02
+MODE_NORMAL = 0x03
 
-FILTER_OFF=0x00
-FILTER_2=0x01
-FILTER_4=0x02
-FILTER_8=0x03
-FILTER_16=0x04 # and all higher
+TSTANDBY_0_5 = 0x00
+TSTANDBY_62_5 = 0x01
+TSTANDBY_125 = 0x02
+TSTANDBY_250 = 0x03
+TSTANDBY_500 = 0x04
+TSTANDBY_1000 = 0x05
+TSTANDBY_10 = 0x06
+TSTANDBY_20 = 0x07
 
-class Bme280:
+FILTER_OFF = 0x00
+FILTER_2 = 0x01
+FILTER_4 = 0x02
+FILTER_8 = 0x03
+FILTER_16 = 0x04 # and all higher
+
+class Bme280(object):
 
     def __init__(self, i2c_bus=1, sensor_address=ADDR):
         self.bus = smbus.SMBus(i2c_bus)
@@ -137,7 +138,7 @@ class Bme280:
 
         pressure_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
         temperature_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
-        humidity_raw  = (data[6] << 8)  |  data[7]
+        humidity_raw = (data[6] << 8) | data[7]
         t_fine = self.calc_t_fine(temperature_raw)
         t = self.calc_compensated_temperature(t_fine)
         p = self.calc_compensated_pressure(t_fine, pressure_raw)
@@ -153,7 +154,7 @@ class Bme280:
         """
         returns the bit pattern for CTRL_HUM corresponding to the desired state of this class
         """
-        return (self.ho & 0x07)
+        return self.ho & 0x07
 
     def get_reg_ctrl_meas(self):
         """
@@ -178,6 +179,8 @@ class Bme280:
         calibration_regs.append(self.bus.read_byte_data(self.sensor_address, 0xA1))
         for i in range(0xE1, 0xE1+7):
             calibration_regs.append(self.bus.read_byte_data(self.sensor_address, i))
+
+        # pylint: disable=bad-whitespace
 
         # reorganize 8-bit words into compensation words (without correct sign)
         self.digT = []

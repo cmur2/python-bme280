@@ -11,4 +11,5 @@ matrix:
     - python: "3.6"
 
 script:
+  - pylint bme280
   - pytest
