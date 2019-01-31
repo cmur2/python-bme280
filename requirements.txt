@@ -1,4 +1,4 @@
 mock==2.0.0
 pylint==1.9.3
-pytest==4.1.1
+pytest==4.2.0
 snapshottest==0.5.0
