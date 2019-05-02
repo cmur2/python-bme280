@@ -1,4 +1,4 @@
 mock==2.0.0
 pylint==1.9.3 # pyup: ignore
-pytest==4.4.0
+pytest==4.4.1
 snapshottest==0.5.0
