@@ -8,4 +8,4 @@ setup(name='bme280',
       packages=['bme280'],
       long_description=open('README.md').read(),
       requires=['python (>= 2.7)', 'smbus (>= 0.4.1)'],
-      install_requires=['smbus-cffi'])
+      install_requires=['smbus2'])

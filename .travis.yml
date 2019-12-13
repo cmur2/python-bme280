@@ -10,7 +10,17 @@ python:
 matrix:
   fast_finish: true
   allow_failures:
+    - python: "3.4"
+    - python: "3.5"
     - python: "3.7"
+
+env:
+  - PIPENV_VERBOSITY=-1
+
+install:
+  - pip install pip==18.0  # https://github.com/pypa/pipenv/issues/2924
+  # - pip install pipenv  # is already installed on Travis CI
+  - pipenv install --dev --deploy
 
 script:
   - pylint bme280
