@@ -14,7 +14,7 @@ import bme280  # pylint: disable=wrong-import-position
 
 
 # inspired by https://github.com/adafruit/Adafruit_Python_GPIO/blob/master/Adafruit_GPIO/I2C.py
-class MockSMBus(object):  # pylint: disable=bad-option-value,useless-object-inheritance
+class MockSMBus():
     def __init__(self, initial_read=None):
         self._log = []
         self.initial_read = initial_read or {}

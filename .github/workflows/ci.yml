@@ -16,7 +16,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-        - '2.7'
         # Python 3.4 on GHA doesn't work due to fastdiff==0.2.0 failing with:
         #   pkg_resources.DistributionNotFound: The 'setuptools_scm>=1.15.0' distribution was not found and is required by the application
         #- '3.4'
