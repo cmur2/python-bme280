@@ -1,9 +1,8 @@
-
 import time
 
-import smbus # pylint: disable=import-error
+import smbus  # pylint: disable=import-error
 
-ADDR = 0x76 # 7bit address of the BME280 for SDO=0, else 0x77
+ADDR = 0x76  # 7bit address of the BME280 for SDO=0, else 0x77
 
 REGISTER_ID = 0xD0
 REGISTER_RESET = 0xE0
@@ -17,24 +16,24 @@ HO_1 = 0x01
 HO_2 = 0x02
 HO_4 = 0x03
 HO_8 = 0x04
-HO_16 = 0x05 # and all higher
+HO_16 = 0x05  # and all higher
 
 PO_SKIPPED = 0x00
 PO_1 = 0x01
 PO_2 = 0x02
 PO_4 = 0x03
 PO_8 = 0x04
-PO_16 = 0x05 # and all higher
+PO_16 = 0x05  # and all higher
 
 TO_SKIPPED = 0x00
 TO_1 = 0x01
 TO_2 = 0x02
 TO_4 = 0x03
 TO_8 = 0x04
-TO_16 = 0x05 # and all higher
+TO_16 = 0x05  # and all higher
 
 MODE_SLEEP = 0x00
-MODE_FORCED = 0x01 # and 0x02
+MODE_FORCED = 0x01  # and 0x02
 MODE_NORMAL = 0x03
 
 TSTANDBY_0_5 = 0x00
@@ -50,10 +49,10 @@ FILTER_OFF = 0x00
 FILTER_2 = 0x01
 FILTER_4 = 0x02
 FILTER_8 = 0x03
-FILTER_16 = 0x04 # and all higher
+FILTER_16 = 0x04  # and all higher
 
-class Bme280(object): # pylint: disable=bad-option-value,useless-object-inheritance
 
+class Bme280(object):  # pylint: disable=bad-option-value,useless-object-inheritance
     def __init__(self, i2c_bus=1, sensor_address=ADDR):
         self.bus = smbus.SMBus(i2c_bus)
         self.sensor_address = sensor_address
@@ -130,10 +129,10 @@ class Bme280(object): # pylint: disable=bad-option-value,useless-object-inherita
     def get_data(self):
         if self.get_mode() == MODE_FORCED:
             t_measure_max = 1.25 + (2.3 * self.to) + (2.3 * self.po + 0.575) + (2.3 * self.ho + 0.575)
-            time.sleep(t_measure_max/1000.0)
+            time.sleep(t_measure_max / 1000.0)
 
         data = []
-        for i in range(0xF7, 0xF7+8):
+        for i in range(0xF7, 0xF7 + 8):
             data.append(self.bus.read_byte_data(self.sensor_address, i))
 
         pressure_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
@@ -174,10 +173,10 @@ class Bme280(object): # pylint: disable=bad-option-value,useless-object-inherita
     def read_calibration_parameters(self):
         # read all calibration registers from chip NVM
         calibration_regs = []
-        for i in range(0x88, 0x88+24):
+        for i in range(0x88, 0x88 + 24):
             calibration_regs.append(self.bus.read_byte_data(self.sensor_address, i))
         calibration_regs.append(self.bus.read_byte_data(self.sensor_address, 0xA1))
-        for i in range(0xE1, 0xE1+7):
+        for i in range(0xE1, 0xE1 + 7):
             calibration_regs.append(self.bus.read_byte_data(self.sensor_address, i))
 
         # pylint: disable=bad-whitespace
@@ -191,35 +190,35 @@ class Bme280(object): # pylint: disable=bad-option-value,useless-object-inherita
         self.digP = []
         self.digP.append((calibration_regs[7] << 8) | calibration_regs[6])
         self.digP.append((calibration_regs[9] << 8) | calibration_regs[8])
-        self.digP.append((calibration_regs[11]<< 8) | calibration_regs[10])
-        self.digP.append((calibration_regs[13]<< 8) | calibration_regs[12])
-        self.digP.append((calibration_regs[15]<< 8) | calibration_regs[14])
-        self.digP.append((calibration_regs[17]<< 8) | calibration_regs[16])
-        self.digP.append((calibration_regs[19]<< 8) | calibration_regs[18])
-        self.digP.append((calibration_regs[21]<< 8) | calibration_regs[20])
-        self.digP.append((calibration_regs[23]<< 8) | calibration_regs[22])
+        self.digP.append((calibration_regs[11] << 8) | calibration_regs[10])
+        self.digP.append((calibration_regs[13] << 8) | calibration_regs[12])
+        self.digP.append((calibration_regs[15] << 8) | calibration_regs[14])
+        self.digP.append((calibration_regs[17] << 8) | calibration_regs[16])
+        self.digP.append((calibration_regs[19] << 8) | calibration_regs[18])
+        self.digP.append((calibration_regs[21] << 8) | calibration_regs[20])
+        self.digP.append((calibration_regs[23] << 8) | calibration_regs[22])
 
         self.digH = []
-        self.digH.append( calibration_regs[24] )
-        self.digH.append((calibration_regs[26]<< 8) | calibration_regs[25])
-        self.digH.append( calibration_regs[27] )
-        self.digH.append((calibration_regs[28]<< 4) | (0x0F & calibration_regs[29]))
-        self.digH.append((calibration_regs[30]<< 4) | ((calibration_regs[29] >> 4) & 0x0F))
-        self.digH.append( calibration_regs[31] )
+        self.digH.append(calibration_regs[24])
+        self.digH.append((calibration_regs[26] << 8) | calibration_regs[25])
+        self.digH.append(calibration_regs[27])
+        self.digH.append((calibration_regs[28] << 4) | (0x0F & calibration_regs[29]))
+        self.digH.append((calibration_regs[30] << 4) | ((calibration_regs[29] >> 4) & 0x0F))
+        self.digH.append(calibration_regs[31])
 
         # fix sign for integers in two's complement
-        for i in [1,2]:
+        for i in [1, 2]:
             if self.digT[i] & 0x8000:
                 self.digT[i] = (-self.digT[i] ^ 0xFFFF) + 1
 
-        for i in [1,2,3,4,5,6,7,8]:
+        for i in [1, 2, 3, 4, 5, 6, 7, 8]:
             if self.digP[i] & 0x8000:
                 self.digP[i] = (-self.digP[i] ^ 0xFFFF) + 1
 
         for i in [1]:
             if self.digH[i] & 0x8000:
                 self.digH[i] = (-self.digH[i] ^ 0xFFFF) + 1
-        for i in [3,4]:
+        for i in [3, 4]:
             if self.digH[i] & 0x0800:
                 self.digH[i] = (-self.digH[i] ^ 0x0FFF) + 1
         for i in [5]:
@@ -233,18 +232,19 @@ class Bme280(object): # pylint: disable=bad-option-value,useless-object-inherita
         var2 = (adc_T / 131072.0 - self.digT[0] / 8192.0) * (adc_T / 131072.0 - self.digT[0] / 8192.0) * self.digT[2]
         return var1 + var2
 
-    def calc_compensated_temperature(self, t_fine):
+    @staticmethod
+    def calc_compensated_temperature(t_fine):
         return t_fine / 5120.0
 
     def calc_compensated_pressure(self, t_fine, adc_P):
-        var1 = (t_fine/2.0) - 64000.0
+        var1 = (t_fine / 2.0) - 64000.0
         var2 = var1 * var1 * (self.digP[5]) / 32768.0
         var2 = var2 + var1 * (self.digP[4]) * 2.0
-        var2 = (var2/4.0)+(self.digP[3] * 65536.0)
+        var2 = (var2 / 4.0) + (self.digP[3] * 65536.0)
         var1 = (self.digP[2] * var1 * var1 / 524288.0 + self.digP[1] * var1) / 524288.0
-        var1 = (1.0 + var1 / 32768.0)*self.digP[0]
+        var1 = (1.0 + var1 / 32768.0) * self.digP[0]
         if var1 == 0.0:
-            return 0 # avoid exception caused by division by zero
+            return 0  # avoid exception caused by division by zero
         p = 1048576.0 - adc_P
         p = (p - (var2 / 4096.0)) * 6250.0 / var1
         var1 = self.digP[8] * p * p / 2147483648.0
@@ -253,7 +253,10 @@ class Bme280(object): # pylint: disable=bad-option-value,useless-object-inherita
 
     def calc_compensated_humidity(self, t_fine, adc_H):
         var_H = t_fine - 76800.0
+        # yapf: disable
+        # pylint: disable=line-too-long
         var_H = (adc_H - (self.digH[3] * 64.0 + self.digH[4] / 16384.0 * var_H)) * (self.digH[1] / 65536.0 * (1.0 + self.digH[5] / 67108864.0 * var_H * (1.0 + self.digH[2] / 67108864.0 * var_H)))
+        # yapf: enable
         var_H = var_H * (1.0 - self.digH[0] * var_H / 524288.0)
         if var_H > 100.0:
             var_H = 100.0
