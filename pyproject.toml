@@ -11,7 +11,7 @@ license = "MIT"
 homepage = "https://dev.mycrobase.de/gitea/cn/python-bme280"
 
 [tool.poetry.dependencies]
-python = "^2.7 || ^3.4"
+python = "^3.7"
 smbus2 = "*"
 
 [tool.poetry.dev-dependencies]

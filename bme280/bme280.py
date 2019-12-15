@@ -52,7 +52,7 @@ FILTER_8 = 0x03
 FILTER_16 = 0x04  # and all higher
 
 
-class Bme280(object):  # pylint: disable=bad-option-value,useless-object-inheritance
+class Bme280():
     def __init__(self, i2c_bus=1, sensor_address=ADDR):
         self.bus = smbus.SMBus(i2c_bus)
         self.sensor_address = sensor_address
@@ -179,7 +179,7 @@ class Bme280(object):  # pylint: disable=bad-option-value,useless-object-inherit
         for i in range(0xE1, 0xE1 + 7):
             calibration_regs.append(self.bus.read_byte_data(self.sensor_address, i))
 
-        # pylint: disable=bad-whitespace
+        # pylint: disable=bad-option-value,bad-whitespace
 
         # reorganize 8-bit words into compensation words (without correct sign)
         self.digT = []
