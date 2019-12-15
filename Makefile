@@ -13,7 +13,8 @@ all: lint test ## Run lint and test (default goal)
 
 .PHONY: lint
 lint: ## Lint all source code
-	poetry run pylint bme280
+	poetry run yapf -q -r bme280
+	poetry run pylint --ignore=snapshots bme280 tests
 
 .PHONY: test
 test: ## Run all tests
