@@ -18,9 +18,8 @@ env:
   - PIPENV_VERBOSITY=-1
 
 install:
-  - pip install pip==18.0  # https://github.com/pypa/pipenv/issues/2924
-  # - pip install pipenv  # is already installed on Travis CI
-  - pipenv install --dev --deploy
+  - pip install --upgrade pipenv
+  - pipenv install --dev
 
 script:
   - pylint bme280
