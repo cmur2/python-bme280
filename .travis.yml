@@ -1,26 +1,26 @@
 ---
-sudo: false
+os: linux
 language: python
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.7"
+- "2.7"
+- "3.4"
+- "3.5"
+- "3.7"
 
-matrix:
+jobs:
   fast_finish: true
   allow_failures:
-    - python: "3.4"
-    - python: "3.5"
-    - python: "3.7"
+  - python: "3.4"
+  - python: "3.5"
+  - python: "3.7"
 
 env:
-  - PIPENV_VERBOSITY=-1
+- PIPENV_VERBOSITY=-1
 
 install:
-  - pip install --upgrade pipenv
-  - pipenv install --dev
+- pip install --upgrade pipenv
+- pipenv install --dev
 
 script:
-  - pylint bme280
-  - pytest
+- pylint bme280
+- pytest
