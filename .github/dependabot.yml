@@ -16,3 +16,17 @@ updates:
   allow:
   - dependency-type: direct
   - dependency-type: indirect
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: thursday
+    time: '14:00'
+    timezone: Europe/Berlin
+  pull-request-branch-name:
+    separator: "-"
+  open-pull-requests-limit: 99
+  versioning-strategy: lockfile-only
+  allow:
+  - dependency-type: direct
+  - dependency-type: indirect
