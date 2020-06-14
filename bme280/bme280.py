@@ -139,10 +139,17 @@ class Bme280(object):
         pressure_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
         temperature_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
         humidity_raw = (data[6] << 8) | data[7]
+        print('pressure_raw: '+str(pressure_raw))
+        print('temperature_raw: '+str(temperature_raw))
+        print('humidity_raw: '+str(humidity_raw))
         t_fine = self.calc_t_fine(temperature_raw)
+        print('t_fine: '+str(t_fine))
         t = self.calc_compensated_temperature(t_fine)
         p = self.calc_compensated_pressure(t_fine, pressure_raw)
         h = self.calc_compensated_humidity(t_fine, humidity_raw)
+        print('temperature: '+str(t))
+        print('pressure: '+str(p))
+        print('humidity: '+str(h))
 
         if self.get_mode() == MODE_FORCED:
             # chip returns to sleep after data readout automatically, mirror it
@@ -207,6 +214,9 @@ class Bme280(object):
         self.digH.append((calibration_regs[30]<< 4) | ((calibration_regs[29] >> 4) & 0x0F))
         self.digH.append( calibration_regs[31] )
 
+        for i in [0,1,2,3,4,5]:
+            print('digH'+str(i)+': '+str(self.digH[i]))
+
         # fix sign for integers in two's complement
         for i in [1,2]:
             if self.digT[i] & 0x8000:
@@ -255,6 +265,7 @@ class Bme280(object):
         var_H = t_fine - 76800.0
         var_H = (adc_H - (self.digH[3] * 64.0 + self.digH[4] / 16384.0 * var_H)) * (self.digH[1] / 65536.0 * (1.0 + self.digH[5] / 67108864.0 * var_H * (1.0 + self.digH[2] / 67108864.0 * var_H)))
         var_H = var_H * (1.0 - self.digH[0] * var_H / 524288.0)
+        print('var_H: '+str(var_H))
         if var_H > 100.0:
             var_H = 100.0
         elif var_H < 0.0:
