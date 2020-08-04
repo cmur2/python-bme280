@@ -1,0 +1,23 @@
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "bme280"
+version = "1.0.0"
+description = "A python library for accessing the BME280 combined humidity and pressure sensor from Bosch."
+authors = ["Christian Nicolai"]
+license = "MIT"
+homepage = "https://dev.mycrobase.de/gitea/cn/python-bme280"
+
+[tool.poetry.dependencies]
+python = "^2.7 || ^3.4"
+smbus2 = "*"
+
+[tool.poetry.dev-dependencies]
+mock = "*"
+pylint = "*"
+pytest = "*"
+snapshottest = "*"
+rope = "*"
+yapf = "*"
