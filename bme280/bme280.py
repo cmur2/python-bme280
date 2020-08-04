@@ -52,7 +52,7 @@ FILTER_4 = 0x02
 FILTER_8 = 0x03
 FILTER_16 = 0x04 # and all higher
 
-class Bme280(object):
+class Bme280(object): # pylint: disable=useless-object-inheritance
 
     def __init__(self, i2c_bus=1, sensor_address=ADDR):
         self.bus = smbus.SMBus(i2c_bus)
