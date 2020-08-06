@@ -13,5 +13,5 @@ install:
 - poetry install
 
 script:
-- poetry run pylint bme280
-- poetry run pytest
+- make lint
+- make test
