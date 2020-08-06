@@ -16,6 +16,10 @@ Consult the data sheet and see [demo.py](demo.py) for clues how to use this libr
 
 Not all functions of the chip are supported since I focused on the *forced mode* but data readout and parameter setting should work in *normal mode*, too. Please send pull requests for improvements and bug fixes!
 
+## Develop
+
+Run `make help` to find out about the available development commands.
+
 ## License
 
 Python files in this repository are released under the [MIT license](LICENSE) except those parts from other sources which are indicated where appropriate in the files.
