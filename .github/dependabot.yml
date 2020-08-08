@@ -11,6 +11,8 @@ updates:
   pull-request-branch-name:
     separator: "-"
   open-pull-requests-limit: 99
+  commit-message:
+    prefix: "module:"
   target-branch: three
   versioning-strategy: lockfile-only
   allow:
@@ -26,6 +28,8 @@ updates:
   pull-request-branch-name:
     separator: "-"
   open-pull-requests-limit: 99
+  commit-message:
+    prefix: "module:"
   versioning-strategy: lockfile-only
   allow:
   - dependency-type: direct
