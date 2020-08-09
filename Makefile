@@ -2,8 +2,9 @@
 # https://tech.davis-hansson.com/p/make/
 SHELL := bash
 .ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
+.SHELLFLAGS := -eux -o pipefail -c
 .DELETE_ON_ERROR:
+.SILENT:
 .DEFAULT_GOAL := all
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
