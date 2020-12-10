@@ -1,6 +1,6 @@
 # python-bme280
 
-[![Build Status](https://travis-ci.com/cmur2/python-bme280.svg?branch=master)](https://travis-ci.com/cmur2/python-bme280)
+![ci](https://github.com/cmur2/python-bme280/workflows/ci/badge.svg?branch=master) [![Build Status](https://travis-ci.com/cmur2/python-bme280.svg?branch=master)](https://travis-ci.com/cmur2/python-bme280)
 
 A Python library for accessing the [BME280 combined humidity and pressure](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf) from Bosch via `python-smbus` using the I2C interface.
 

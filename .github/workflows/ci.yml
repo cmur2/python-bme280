@@ -1,0 +1,44 @@
+---
+name: ci
+
+on:
+  push:
+    branches: [master, three]
+  pull_request:
+    branches: [master, three]
+  workflow_dispatch:
+  schedule:
+  - cron: '41 4 * * 4'  # weekly on thursday morning
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+        - '2.7'
+        # Python 3.4 on GHA doesn't work due to fastdiff==0.2.0 failing with:
+        #   pkg_resources.DistributionNotFound: The 'setuptools_scm>=1.15.0' distribution was not found and is required by the application
+        #- '3.4'
+        - '3.5'
+        - '3.7'
+        - '3.9'
+    steps:
+    - uses: actions/checkout@v2
+    - run: python -m pip install --upgrade pip
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Poetry
+      run: |
+        pip install poetry==1.0.10
+    - name: Install dependencies
+      run: |
+        poetry install
+    - name: Lint
+      run: |
+        make lint
+    - name: Test
+      run: |
+        make test
