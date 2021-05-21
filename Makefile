@@ -21,17 +21,6 @@ lint: ## Lint all source code
 test: ## Run all tests
 	poetry run pytest
 
-.PHONY: rebase-three-branch
-rebase-three-branch: ## Rebase the py3 branch with master contents
-	git stash
-	git checkout master
-	git pull
-	git checkout three
-	git rebase -i origin/master
-	git push --force-with-lease
-	git checkout master
-	git stash pop
-
 .PHONY: help
 help: ## Print this help text
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
