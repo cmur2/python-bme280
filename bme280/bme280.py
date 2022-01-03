@@ -53,6 +53,7 @@ FILTER_16 = 0x04  # and all higher
 
 
 class Bme280():
+
     def __init__(self, i2c_bus=1, sensor_address=ADDR):
         self.bus = smbus.SMBus(i2c_bus)
         self.sensor_address = sensor_address
